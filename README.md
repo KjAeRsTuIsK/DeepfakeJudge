@@ -1,6 +1,5 @@
-# Pixels Don’t Lie (But Your Detector Might): Bootstrapping MLLM-as-a-Judge for Trustworthy Deepfake Detection and Reasoning Supervision <img src="images/logo.png" height="40">
+# Pixels Don’t Lie (But Your Detector Might): Bootstrapping MLLM-as-a-Judge for Trustworthy Deepfake Detection and Reasoning Supervision <p align="center"> <img src="images/judge_logo (1).png" height="150" style="border: none; outline: none; display: block;" ></p>
 
-# 
 <p align="center">
     <img src="https://i.imgur.com/waxVImv.png" alt="Oryx Video-ChatGPT">
 </p>
