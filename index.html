@@ -19,6 +19,7 @@
     <!-- FIGURE_LOGO: Replace src with your judge logo -->
     <img class="hero-logo" src="static/images/judge_logo.png" alt="DeepfakeJudge Logo">
 
+    <div class="venue-tag">CVPR 2026</div>
     <h1>Pixels Don't Lie (But Your Detector Might): Bootstrapping MLLM-as-a-Judge for Trustworthy Deepfake Detection and Reasoning Supervision</h1>
 
     <div class="authors">
@@ -28,9 +29,6 @@
       <a href="https://research.monash.edu/en/persons/abhinav-dhall">Abhinav Dhall</a>
     </div>
     <div class="affiliations">Mohamed bin Zayed University of Artificial Intelligence &nbsp;·&nbsp; Monash University</div>
-
-    <!-- Update venue/year as needed -->
-    <!-- <div class="venue-tag">VENUE 2025</div> -->
 
     <div class="badges">
       <a class="badge arxiv" href="#" target="_blank">
@@ -214,7 +212,7 @@
     <h3>📝 Example: Graded Reasoning from Bootstrapping</h3>
     <div style="text-align: center; margin: 24px 0 16px;">
       <img src="static/images/examples/ex5.png" alt="Example real image for bootstrapping" style="max-width: 320px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);">
-      <div style="margin-top: 8px; font-size: 0.9rem; color: #64748b;">(Image label: <strong>Real</strong>)</div>
+      <div style="margin-top: 8px; font-size: 0.9rem; color: #64748b;">(Image label: <strong>Fake</strong>)</div>
     </div>
     <div class="table-wrapper">
       <table>
@@ -224,28 +222,28 @@
         <tbody>
           <tr class="highlight-row">
             <td><strong>5 (Gold)</strong></td>
-            <td>Soft, natural daylight uniformly illuminates the face and the knit hat, creating subtle shadows beneath the eyebrows and nose that correspond with the light source. The knitting texture on the hat is consistent in scale and shows realistic stitches and shadows. The face's sharpness contrasts smoothly with the slight blur of the background elements, providing depth. The hair near the hat edges blends naturally without halos, and the skin tones show natural variation in hue and lighting.</td>
+            <td>The train in the mid-right appears unnaturally bright and overly smooth, lacking realistic surface textures that would normally show wear and detail. The entire upper-right train section is distorted, with shapes fused together and unclear details, making it hard to distinguish individual parts. The merging of elements creates an unnatural and confusing structure that does not align with typical train forms. Edges between the train and the background are uneven and lack depth, further weakening the image's realism. These texture and structural anomalies clearly indicate that the scene is artificially generated.</td>
           </tr>
           <tr>
             <td><strong>4</strong></td>
-            <td>The lighting is gentle and natural, providing even daylight across both the face and the knit hat. Shadows beneath the eyebrows and nose align appropriately with the light source's direction. The knitting texture on the hat displays clear, realistic stitch details and a consistent scale. The face is sharply focused, contrasting with the slightly blurred background, which adds depth. The hair edges adjacent to the hat blend naturally without visible halos. Skin tones show credible variations in color and lighting, supporting the image's authenticity.</td>
+            <td>The train located on the right side is strikingly bright and shows a lack of detailed texture, giving it an overly smooth and synthetic appearance. In the upper-right section, the shapes seem to merge, complicating the identification of distinct train parts. The boundaries between the train and its background are somewhat uneven, further diminishing its natural look. These texture irregularities and the blending of forms strongly suggest that the image is AI-generated.</td>
           </tr>
           <tr>
             <td><strong>3</strong></td>
-            <td>The image shows a daylight scenario that generally looks natural, with mild shadows present on the face and hat. The knit texture of the hat is apparent, though some areas lack detail. The face is sharply focused while the background is somewhat blurred, enhancing the depth. Hair along the edges of the hat blends reasonably well, although a few spots could be smoother. Skin tones appear normal, but subtle inconsistencies might stem from lighting or minor edits. Overall, the image seems real, though not completely flawless.</td>
+            <td>The train exhibits an unusually bright and smooth texture, with certain sections blending into one another in the upper right area. The distinct features of the train's structure are somewhat obscured, and the edges around it lack sharpness, indicating possible alterations. Overall, the image raises suspicion and does not appear entirely authentic, despite some visible details.</td>
           </tr>
           <tr>
             <td><strong>2</strong></td>
-            <td>The illumination on the face and hat is uneven, with certain shadows looking inconsistent or too sharp for natural daylight. The knit texture on the hat is visible but appears somewhat flat in certain areas, suggesting possible retouching. The background blur is irregular, and some hair edges near the hat seem slightly unnatural or haloed. Skin tones vary, but some regions look excessively smoothed or edited. These factors cast doubt on the image's complete authenticity, though it may not be heavily altered.</td>
+            <td>The train looks a little off because some parts seem merged and unclear, especially on the upper right. The colors also look a bit unnatural. However, the rest of the scene looks okay. It might be edited or just a low-quality photo. There are no strong clear signs, so I'm not completely sure.</td>
           </tr>
           <tr>
             <td><strong>1</strong></td>
-            <td>The lighting is mismatched, with shadows on the face going in different directions and inconsistent with the outdoor background. The knit hat texture looks artificial and overly uniform, lacking natural stitch variation. Hair edges around the hat show clear halos and blending errors. The background blur is uneven, and skin tones appear overly airbrushed or colored unnaturally. These problems strongly indicate the image has been digitally manipulated or is fake.</td>
+            <td>The train looks normal and the tracks appear fine, with no visible issues. The colors and textures seem consistent with a real photo. The background and surrounding objects also look natural. Nothing stands out as fake or edited here, so this image is definitely real.</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="figure-caption"><strong>Table:</strong> Example of a real image and corresponding degraded ratings produced by the bootstrapping process. Reasoning quality is systematically controlled from level 5 (fully accurate and grounded) to level 1 (hallucinated and misleading).</div>
+    <div class="figure-caption"><strong>Table:</strong> Example of a fake image and corresponding degraded ratings produced by the bootstrapping process. Reasoning quality is systematically controlled from level 5 (fully accurate and grounded) to level 1 (hallucinated and misleading).</div>
 
   </div>
 </section>
@@ -273,18 +271,6 @@
       </div>
     </div>
 
-    <!-- EXAMPLE SLOT: Methodology examples -->
-    <div class="example-container" id="ex-methodology">
-      <div class="example-placeholder">
-        <span class="placeholder-label">Examples</span>
-        <span class="placeholder-icon">📝</span>
-        <div class="placeholder-text">Methodology / Training Examples</div>
-        <div class="placeholder-hint">
-          Add overleaf table images showing pointwise and pairwise training input/output examples.<br>
-          Place images in <code>static/images/examples/</code> folder.
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -381,18 +367,6 @@
       </table>
     </div>
 
-    <!-- EXAMPLE SLOT: Qualitative results -->
-    <div class="example-container" id="ex-results">
-      <div class="example-placeholder">
-        <span class="placeholder-label">Examples</span>
-        <span class="placeholder-icon">📝</span>
-        <div class="placeholder-text">Qualitative Results / Evaluation Examples</div>
-        <div class="placeholder-hint">
-          Add overleaf table images showing qualitative pointwise and pairwise evaluation examples.<br>
-          Place images in <code>static/images/examples/</code> folder.
-        </div>
-      </div>
-    </div>
 
   </div>
 </section>
@@ -447,16 +421,20 @@
   <div class="container">
     <h2 class="section-title"><span class="icon">📝</span> Citation</h2>
     <p>If you find DeepfakeJudge useful in your research, please consider citing:</p>
+    <p style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 16px; font-size: 0.9rem; color: #92400e; margin-bottom: 20px;">
+      📢 <strong>arXiv paper coming soon.</strong> Citation will be updated upon release.
+    </p>
     <div class="citation-block">
       <button class="copy-btn" onclick="copyCitation()">📋 Copy</button>
-<pre>@article{kuckreja2025deepfakejudge,
+<pre>@inproceedings{kuckreja2026deepfakejudge,
   title={Pixels Don't Lie (But Your Detector Might): Bootstrapping
          MLLM-as-a-Judge for Trustworthy Deepfake Detection
          and Reasoning Supervision},
   author={Kuckreja, Kartik and Gupta, Parul and Khan, Muhammad Haris
           and Dhall, Abhinav},
-  journal={arXiv preprint arXiv:XXXX.XXXXX},
-  year={2025}
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer
+             Vision and Pattern Recognition (CVPR)},
+  year={2026}
 }</pre>
     </div>
   </div>
