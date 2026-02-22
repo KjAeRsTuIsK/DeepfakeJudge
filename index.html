@@ -79,16 +79,12 @@
       Current deepfake detectors can classify images, but their <em>reasoning</em> is often unreliable — hallucinated artifacts, ungrounded claims, and generic explanations. Traditional metrics like BLEU and BERTScore fail to capture these issues. DeepfakeJudge addresses this gap by training compact vision-language models that evaluate reasoning quality directly from images.
     </p>
 
-    <!-- FIGURE 1: Teaser — Comparison of deepfake reasoning among different models -->
-    <div class="figure-container" id="fig-teaser-models">
-      <img class="figure-img" src="static/images/teaser_model_comparison.png" alt="Comparison of deepfake reasoning across different VLMs" style="max-width: 110%; margin-left: -5%;">
-      <div class="figure-caption"><strong>Figure 1:</strong> Different VLMs produce varying quality reasoning for deepfake detection. While some correctly identify artifacts, others hallucinate non-existent manipulations or miss critical visual evidence.</div>
-    </div>
-
-    <!-- FIGURE 2: Teaser — Comparison with other metrics -->
-    <div class="figure-container" id="fig-teaser-metrics">
-      <img class="figure-img" src="static/images/teaser_metrics_comparison.png" alt="DeepfakeJudge scores vs traditional metrics">
-      <div class="figure-caption"><strong>Figure 2:</strong> Traditional lexical and semantic metrics fail to capture reasoning fidelity. DeepfakeJudge scores correlate strongly with human assessments of visual grounding and factual correctness.</div>
+    <div class="figure-container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start;">
+        <img class="figure-img" src="static/images/teaser_model_comparison.png" alt="Comparison of deepfake reasoning across different VLMs">
+        <img class="figure-img" src="static/images/teaser_metrics_comparison.png" alt="DeepfakeJudge scores vs traditional metrics">
+      </div>
+      <div class="figure-caption"><strong>Figure 1:</strong> <em>(Left)</em> Different VLMs produce varying quality reasoning for deepfake detection — some correctly identify artifacts while others hallucinate non-existent manipulations. <em>(Right)</em> Traditional metrics (BLEU, BERTScore) fail to capture reasoning fidelity, while DeepfakeJudge scores align with human assessments.</div>
     </div>
 
   </div>
