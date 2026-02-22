@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeepfakeJudge — Bootstrapping MLLM-as-a-Judge for Trustworthy Deepfake Detection</title>
+  <title>DeepfakeJudge: Bootstrapping MLLM-as-a-Judge for Trustworthy Deepfake Detection</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -56,13 +56,13 @@
   <div class="container">
     <h2 class="section-title"><span class="icon">📄</span> Abstract</h2>
     <p>
-      Deepfake detection models increasingly generate natural language explanations to justify their predictions. However, while classification accuracy has improved, the reasoning itself is often ungrounded, hallucinated, or loosely connected to the actual visual evidence. Existing evaluation protocols primarily measure detection accuracy and overlook reasoning fidelity, visual grounding, and interpretability.
+      Deepfake detection models increasingly generate natural language explanations to justify their predictions. Yet, while classification accuracy has improved, the reasoning behind these predictions is often ungrounded, hallucinated, or loosely connected to the actual visual evidence. Existing evaluation protocols focus primarily on detection accuracy and largely overlook reasoning fidelity, visual grounding, and interpretability.
     </p>
     <p>
-      We introduce <strong>DeepfakeJudge</strong>, a unified framework for scalable reasoning supervision and evaluation in deepfake detection. The framework integrates an out-of-distribution detection benchmark, a densely human-annotated reasoning dataset, and a bootstrapped generator–evaluator training pipeline to build a multimodal reasoning judge. The resulting models evaluate explanation quality directly from images and support both <strong>pointwise</strong> and <strong>pairwise</strong> assessment aligned with human judgment.
+      We introduce <strong>DeepfakeJudge</strong>, a unified framework for scalable reasoning supervision and evaluation in deepfake detection. The framework integrates an out-of-distribution detection benchmark, a densely human-annotated reasoning dataset, and a bootstrapped generator-evaluator training pipeline to build a multimodal reasoning judge. The resulting models evaluate explanation quality directly from images and support both <strong>pointwise</strong> and <strong>pairwise</strong> assessment aligned with human judgment.
     </p>
     <p>
-      DeepfakeJudge establishes reasoning fidelity as a measurable dimension of trustworthy deepfake detection and demonstrates that scalable supervision of reasoning evaluators is possible without requiring explicit ground-truth rationales for every instance.
+      DeepfakeJudge establishes reasoning fidelity as a measurable and scalable dimension of trustworthy deepfake detection, showing that effective reasoning evaluators can be trained without requiring explicit ground-truth rationales for every instance.
     </p>
   </div>
 </section>
@@ -76,7 +76,7 @@
     <h2 class="section-title"><span class="icon">🔍</span> Why DeepfakeJudge?</h2>
 
     <p>
-      Current deepfake detectors can classify images, but their <em>reasoning</em> is often unreliable — hallucinated artifacts, ungrounded claims, and generic explanations. Traditional metrics like BLEU and BERTScore fail to capture these issues. DeepfakeJudge addresses this gap by training compact vision-language models that evaluate reasoning quality directly from images.
+      Current deepfake detectors can classify images, but their <em>reasoning</em> is often unreliable: hallucinated artifacts, ungrounded claims, and generic explanations remain widespread. Standard metrics such as BLEU and BERTScore do not capture these deficiencies. DeepfakeJudge addresses this gap by training compact vision-language models that assess reasoning quality directly from images.
     </p>
 
     <div class="figure-container">
@@ -84,7 +84,7 @@
         <img class="figure-img" src="static/images/teaser_model_comparison.png" alt="Comparison of deepfake reasoning across different VLMs">
         <img class="figure-img" src="static/images/teaser_metrics_comparison.png" alt="DeepfakeJudge scores vs traditional metrics">
       </div>
-      <div class="figure-caption"><strong>Figure 1:</strong> <em>(Left)</em> Different VLMs produce varying quality reasoning for deepfake detection — some correctly identify artifacts while others hallucinate non-existent manipulations. <em>(Right)</em> Traditional metrics (BLEU, BERTScore) fail to capture reasoning fidelity, while DeepfakeJudge scores align with human assessments.</div>
+      <div class="figure-caption"><strong>Figure 1:</strong> <em>(Left)</em> VLMs produce reasoning of widely varying quality for the same deepfake: some correctly identify artifacts, while others hallucinate non-existent manipulations. <em>(Right)</em> Traditional metrics (BLEU, BERTScore) fail to capture reasoning fidelity, whereas DeepfakeJudge scores correlate well with human assessments.</div>
     </div>
 
   </div>
@@ -102,22 +102,22 @@
       <div class="contrib-card">
         <div class="card-icon">🎯</div>
         <h4>Out-of-Distribution Deepfake Benchmark</h4>
-        <p>A challenging benchmark combining real images, text-to-image generations, and editing-based forgeries from modern pipelines (Gemini, SeedDream, Flux-Kontext-Max, Qwen-Edit) to evaluate both detection and reasoning generalization.</p>
+        <p>A challenging benchmark combining real images, text-to-image generations, and editing-based forgeries from modern pipelines such as Gemini, SeedDream, Flux-Kontext-Max, and Qwen-Edit, designed to evaluate both detection accuracy and reasoning generalization.</p>
       </div>
       <div class="contrib-card">
         <div class="card-icon">✍️</div>
         <h4>Human-Annotated Visual Reasoning Dataset</h4>
-        <p>Densely annotated dataset linking textual explanations to localized visual evidence — including artifact categories, bounding boxes, referring expressions, and structured gold reasoning rationales.</p>
+        <p>Densely annotated dataset linking textual explanations to localized visual evidence, covering artifact categories, bounding boxes, referring expressions, and structured gold reasoning rationales.</p>
       </div>
       <div class="contrib-card">
         <div class="card-icon">🔄</div>
-        <h4>Bootstrapped Generator–Evaluator Pipeline</h4>
-        <p>A scalable supervision framework that generates graded reasoning traces across five quality levels, iteratively refines misaligned samples, and paraphrases accepted outputs for stylistic diversity.</p>
+        <h4>Bootstrapped Generator-Evaluator Pipeline</h4>
+        <p>A scalable supervision framework that produces graded reasoning traces across five quality levels, iteratively refines misaligned samples using evaluator feedback, and paraphrases accepted outputs to introduce stylistic diversity.</p>
       </div>
       <div class="contrib-card">
         <div class="card-icon">⚖️</div>
         <h4>MLLM-as-a-Judge</h4>
-        <p>Compact 3B and 7B vision-language models trained as reasoning evaluators supporting both pointwise scoring (1–5) and pairwise comparison, achieving <strong>96.2% pairwise accuracy</strong> and <strong>0.95 Pearson correlation</strong> — surpassing models 30× larger.</p>
+        <p>Compact 3B and 7B vision-language models trained as reasoning evaluators, supporting both pointwise scoring (1 to 5) and pairwise comparison. The 7B model achieves <strong>96.2% pairwise accuracy</strong> and <strong>0.95 Pearson correlation</strong>, surpassing models over 30x larger.</p>
       </div>
     </div>
   </div>
@@ -194,13 +194,13 @@
     <h2 class="section-title"><span class="icon">🔄</span> Bootstrapped Reasoning Supervision</h2>
 
     <p>
-      To scale training beyond the human-annotated subset, we introduce a generator–evaluator loop. A generator produces reasoning traces at five intended quality levels (1–5). An evaluator checks alignment between predicted and intended ratings. Misaligned samples are refined using evaluator feedback until consistency is achieved. Accepted samples are then paraphrased to prevent stylistic memorization.
+      To scale training beyond the human-annotated subset, we introduce a generator-evaluator loop. A generator produces reasoning traces at five intended quality levels (1 to 5). An evaluator checks alignment between predicted and intended ratings. Misaligned samples are refined using evaluator feedback until consistency is achieved. Accepted samples are then paraphrased to prevent stylistic memorization.
     </p>
 
     <!-- FIGURE 4: Bootstrapping process diagram -->
     <div class="figure-container" id="fig-bootstrapping">
       <img class="figure-img" src="static/images/bootstrapping_process.png" alt="Bootstrapping generator-evaluator loop">
-      <div class="figure-caption"><strong>Figure 4:</strong> The bootstrapped generator–evaluator supervision framework. Reasoning traces are generated at controlled quality levels, evaluated for alignment, iteratively refined, and diversified through paraphrasing.</div>
+      <div class="figure-caption"><strong>Figure 4:</strong> The bootstrapped generator-evaluator supervision framework. Reasoning traces are generated at controlled quality levels, evaluated for alignment, iteratively refined, and diversified through paraphrasing.</div>
     </div>
 
     <!-- Bootstrapping example: graded reasoning for a real image -->
@@ -262,7 +262,7 @@
       </div>
       <div class="method-step">
         <h4>DeepfakeJudge Training</h4>
-        <p>Compact VLMs (3B and 7B) are fine-tuned using LoRA with a negative log-likelihood objective. <strong>Pointwise:</strong> predict a reasoning quality score (1–5) with justification. <strong>Pairwise:</strong> select the better-grounded reasoning between two candidates.</p>
+        <p>Compact VLMs (3B and 7B) are fine-tuned using LoRA with a negative log-likelihood objective. In the <strong>pointwise</strong> setting, the model predicts a reasoning quality score (1 to 5) with a brief justification. In the <strong>pairwise</strong> setting, it selects the better-grounded reasoning between two candidates.</p>
       </div>
     </div>
 
