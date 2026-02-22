@@ -18,40 +18,38 @@
 
 # 📑 Contents
 
-- [🔍 Overview](#-overview)
-- [⚙️ Install](#%EF%B8%8F-install)
-- [🦁 Model Zoo](#-model-zoo)
-- [📂 Dataset](#-dataset)
+- [🔍 Overview](#overview)
+- [⚙️ Install](#install)
+- [🦁 Model Zoo](#model-zoo)
+- [📂 Dataset](#dataset)
   - [Download the Dataset](#download-the-dataset)
   - [Dataset Structure](#dataset-structure)
-- [🚀 Inference](#-inference)
+- [🚀 Inference](#inference)
   - [Pointwise Inference](#pointwise-inference)
   - [Pairwise Inference](#pairwise-inference)
   - [Batch Inference with ms-swift](#batch-inference-with-ms-swift)
-- [🏋️ Training](#%EF%B8%8F-training)
+- [🏋️ Training](#training)
   - [Setup](#training-setup)
   - [Pointwise Training](#pointwise-training)
   - [Pairwise Training](#pairwise-training)
   - [Configuration Reference](#configuration-reference)
-- [💡 Contributions](#-contributions)
-- [📊 Datasets](#-datasets)
+- [💡 Contributions](#contributions)
+- [📊 Datasets](#datasets)
   - [DeepfakeJudge-Detect](#deepfakejudge-detect)
   - [DeepfakeJudge-Reason](#deepfakejudge-reason)
   - [DeepfakeJudge-Meta](#deepfakejudge-meta)
   - [DeepfakeJudge-Meta-Human](#deepfakejudge-meta-human)
-- [🔬 Methodology](#-methodology)
-- [📈 Benchmark Results](#-benchmark-results)
+- [🔬 Methodology](#methodology)
+- [📈 Benchmark Results](#benchmark-results)
   - [Deepfake Detection (OOD)](#deepfake-detection-ood)
   - [Reasoning Evaluation](#reasoning-evaluation)
   - [Pointwise Evaluation](#pointwise-evaluation)
   - [Pairwise Evaluation](#pairwise-evaluation)
-- [👥 User Study](#-user-study)
-- [🏁 Conclusion](#-conclusion)
-- [📝 Citation](#-citation)
+- [🏁 Conclusion](#conclusion)
 
 ---
 
-# 🔍 Overview
+# <a id="overview"></a>🔍 Overview
 
 Deepfake detection models increasingly generate natural language explanations to justify their predictions. However, while classification accuracy has improved, the reasoning itself is often ungrounded, hallucinated, or loosely connected to the actual visual evidence. Existing evaluation protocols primarily measure detection accuracy and overlook reasoning fidelity, visual grounding, and interpretability.
 
@@ -61,7 +59,7 @@ DeepfakeJudge establishes reasoning fidelity as a measurable dimension of trustw
 
 ---
 
-# ⚙️ Install
+# <a id="install"></a>⚙️ Install
 
 Clone the repository and install dependencies:
 
@@ -87,7 +85,7 @@ pip install qwen-vl-utils[decord]==0.0.8
 
 ---
 
-# 🦁 Model Zoo
+# <a id="model-zoo"></a>🦁 Model Zoo
 
 All DeepfakeJudge models are fine-tuned from Qwen2.5-VL-Instruct using LoRA and are hosted on Hugging Face under [MBZUAI](https://huggingface.co/MBZUAI).
 
@@ -130,12 +128,12 @@ git clone https://huggingface.co/MBZUAI/Qwen-2.5-VL-Instruct-7B-Pointwise-DFJ
 
 ---
 
-# 📂 Dataset
+# <a id="dataset"></a>📂 Dataset
 
 The DeepfakeJudge Dataset is hosted on Hugging Face:
 **[MBZUAI/DeepfakeJudge-Dataset](https://huggingface.co/datasets/MBZUAI/DeepfakeJudge-Dataset)**
 
-## ⬇️ Download the Dataset
+## <a id="download-the-dataset"></a>⬇️ Download the Dataset
 
 **Option 1: Hugging Face CLI**
 
@@ -164,7 +162,7 @@ git lfs install
 git clone https://huggingface.co/datasets/MBZUAI/DeepfakeJudge-Dataset
 ```
 
-## 🗂️ Dataset Structure
+## <a id="dataset-structure"></a>🗂️ Dataset Structure
 
 ```
 DeepfakeJudge-Dataset/
@@ -187,9 +185,9 @@ Each subset contains an `images/` folder and a `data.jsonl` file. Image paths in
 
 ---
 
-# 🚀 Inference
+# <a id="inference"></a>🚀 Inference
 
-## 📌 Pointwise Inference
+## <a id="pointwise-inference"></a>📌 Pointwise Inference
 
 Pointwise evaluation assigns a quality score (1–5) to a single candidate reasoning response.
 
@@ -248,7 +246,7 @@ print(output[0])
 
 A ready-to-use CLI script is available in [`pointwise/inference.py`](pointwise/inference.py) — see the [pointwise README](pointwise/README.md) for full details.
 
-## ⚖️ Pairwise Inference
+## <a id="pairwise-inference"></a>⚖️ Pairwise Inference
 
 Pairwise evaluation compares two candidate responses and selects which one is better-grounded.
 
@@ -308,7 +306,7 @@ print(output[0])
 
 A ready-to-use CLI script is available in [`pairwise/inference.py`](pairwise/inference.py). See the [pairwise README](pairwise/README.md) for full details.
 
-## 🔄 Batch Inference with ms-swift
+## <a id="batch-inference-with-ms-swift"></a>🔄 Batch Inference with ms-swift
 
 For batch inference over a dataset (e.g., running the judge on a full test set), we provide a streamlined workflow using [ms-swift](https://github.com/modelscope/ms-swift).
 
@@ -362,11 +360,11 @@ The test JSONL should follow the same schema as the corresponding training split
 
 ---
 
-# 🏋️ 
+# <a id="training"></a>🏋️ Training
 
 DeepfakeJudge models are fine-tuned using [ms-swift](https://github.com/modelscope/ms-swift), a scalable training framework for LLMs and VLMs.
 
-## 🛠️ Training Setup
+## <a id="training-setup"></a>🛠️ Training Setup
 
 ```bash
 pip install ms-swift
@@ -379,7 +377,7 @@ Make sure you have the dataset downloaded (see [Dataset](#dataset) section above
 - **Pointwise:** `DeepfakeJudge-Dataset/dfj-meta/dfj-meta-pointwise/train/data.jsonl`
 - **Pairwise:** `DeepfakeJudge-Dataset/dfj-meta/dfj-meta-pairwise/train/data.jsonl`
 
-## 📌 Pointwise Training
+## <a id="pointwise-training"></a>📌 Pointwise Training
 
 ```bash
 cd training
@@ -442,7 +440,7 @@ swift sft \
 
 </details>
 
-## ⚖️ Pairwise Training
+## <a id="pairwise-training"></a>⚖️ Pairwise Training
 
 ```bash
 cd training
@@ -507,7 +505,7 @@ swift sft \
 
 </details>
 
-## 📋 Configuration Reference
+## <a id="configuration-reference"></a>📋 Configuration Reference
 
 | Parameter | Pointwise | Pairwise | Notes |
 |---|---|---|---|
@@ -524,7 +522,7 @@ swift sft \
 
 ---
 
-# 💡 Contributions
+# <a id="contributions"></a>💡 Contributions
 
 DeepfakeJudge advances deepfake detection and multimodal reasoning evaluation through several key contributions that jointly address generalization, interpretability, and scalable supervision:
 
@@ -548,9 +546,9 @@ DeepfakeJudge advances deepfake detection and multimodal reasoning evaluation th
 
 ---
 
-# 📊 Datasets
+# <a id="datasets"></a>📊 Datasets
 
-## 🎯 DeepfakeJudge-Detect
+## <a id="deepfakejudge-detect"></a>🎯 DeepfakeJudge-Detect
 
 DeepfakeJudge-Detect is an out-of-distribution benchmark designed to evaluate real-versus-fake classification under modern generation pipelines.
 
@@ -579,7 +577,7 @@ Two types of synthetic images are included to reflect diverse manipulation strat
 
 ---
 
-## 🧠 DeepfakeJudge-Reason
+## <a id="deepfakejudge-reason"></a>🧠 DeepfakeJudge-Reason
 
 DeepfakeJudge-Reason provides human-annotated reasoning supervision for detection.
 
@@ -607,7 +605,7 @@ For each fake image, annotators:
 
 ---
 
-## ⚡ DeepfakeJudge-Meta
+## <a id="deepfakejudge-meta"></a>⚡ DeepfakeJudge-Meta
 
 DeepfakeJudge-Meta is a bootstrapped reasoning supervision dataset constructed using the generator–evaluator framework.
 
@@ -626,7 +624,7 @@ This dataset enables scalable training of reasoning evaluators without requiring
 
 ---
 
-## 👤 DeepfakeJudge-Meta-Human
+## <a id="deepfakejudge-meta-human"></a>👤 DeepfakeJudge-Meta-Human
 
 A human-validated evaluation subset used to measure alignment between model predictions and expert reasoning judgments.
 
@@ -640,7 +638,7 @@ These statistics confirm strong consistency in human reasoning supervision.
 
 ---
 
-# 🔬 Methodology
+# <a id="methodology"></a>🔬 Methodology
 
 DeepfakeJudge consists of three primary stages:
 
@@ -663,9 +661,9 @@ Training uses 20,625 samples for pointwise and 20,625 sampled pairs for pairwise
 
 ---
 
-# 📈 Benchmark Results
+# <a id="benchmark-results"></a>📈 Benchmark Results
 
-## 🎯 Deepfake Detection (OOD)
+## <a id="deepfake-detection-ood"></a>🎯 Deepfake Detection (OOD)
 
 Evaluation on DeepfakeJudge-Detect:
 
@@ -681,7 +679,7 @@ Closed-source models perform strongly on real images but struggle to generalize 
 
 ---
 
-## 🧠 Reasoning Evaluation
+## <a id="reasoning-evaluation"></a>🧠 Reasoning Evaluation
 
 Evaluation on DeepfakeJudge-Reason:
 
@@ -697,7 +695,7 @@ Traditional lexical metrics such as BLEU and ROUGE fail to reflect visual ground
 
 ---
 
-## 📌 Pointwise Evaluation
+## <a id="pointwise-evaluation"></a>📌 Pointwise Evaluation
 
 DeepfakeJudge-Meta results:
 
@@ -719,7 +717,7 @@ DeepfakeJudge-Meta-Human:
 
 ---
 
-## ⚖️ Pairwise Evaluation
+## <a id="pairwise-evaluation"></a>⚖️ Pairwise Evaluation
 
 Pairwise accuracy (% agreement with human preferences):
 
@@ -733,6 +731,6 @@ Pairwise accuracy (% agreement with human preferences):
 
 ---
 
-# 🏁 Conclusion
+# <a id="conclusion"></a>🏁 Conclusion
 
 DeepfakeJudge introduces a unified framework for reasoning supervision and evaluation in deepfake detection. By combining human annotation, bootstrapped multimodal supervision, and automated evaluation, the framework establishes reasoning fidelity as a measurable and scalable objective. Compact reasoning judges trained under this framework achieve near-human alignment and outperform substantially larger models, paving the way for trustworthy, interpretable, and generalizable forensic systems.
