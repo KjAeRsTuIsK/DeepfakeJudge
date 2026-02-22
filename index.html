@@ -84,29 +84,13 @@
 
     <!-- FIGURE 1: Teaser — Comparison of deepfake reasoning among different models -->
     <div class="figure-container" id="fig-teaser-models">
-      <div class="figure-placeholder">
-        <span class="placeholder-label">Figure 1</span>
-        <span class="placeholder-icon">🖼️</span>
-        <div class="placeholder-text">Teaser: Deepfake Reasoning Comparison Across Models</div>
-        <div class="placeholder-hint">
-          Add image: <code>static/images/teaser_model_comparison.png</code><br>
-          Shows how different models (GPT-4o, Gemini, Qwen, SIDA, etc.) reason about the same deepfake image — highlighting hallucinated vs. grounded explanations.
-        </div>
-      </div>
+      <img class="figure-img" src="static/images/teaser_model_comparison.png" alt="Comparison of deepfake reasoning across different VLMs">
       <div class="figure-caption"><strong>Figure 1:</strong> Different VLMs produce varying quality reasoning for deepfake detection. While some correctly identify artifacts, others hallucinate non-existent manipulations or miss critical visual evidence.</div>
     </div>
 
     <!-- FIGURE 2: Teaser — Comparison with other metrics -->
     <div class="figure-container" id="fig-teaser-metrics">
-      <div class="figure-placeholder">
-        <span class="placeholder-label">Figure 2</span>
-        <span class="placeholder-icon">📊</span>
-        <div class="placeholder-text">Teaser: DeepfakeJudge vs. Traditional Metrics</div>
-        <div class="placeholder-hint">
-          Add image: <code>static/images/teaser_metrics_comparison.png</code><br>
-          Shows that traditional metrics (BLEU, ROUGE, BERTScore) fail to distinguish reasoning quality, while DeepfakeJudge scores align with human judgment.
-        </div>
-      </div>
+      <img class="figure-img" src="static/images/teaser_metrics_comparison.png" alt="DeepfakeJudge scores vs traditional metrics">
       <div class="figure-caption"><strong>Figure 2:</strong> Traditional lexical and semantic metrics fail to capture reasoning fidelity. DeepfakeJudge scores correlate strongly with human assessments of visual grounding and factual correctness.</div>
     </div>
 
@@ -160,15 +144,7 @@
 
     <!-- FIGURE 3: Data generation process overview -->
     <div class="figure-container" id="fig-data-generation">
-      <div class="figure-placeholder">
-        <span class="placeholder-label">Figure 3</span>
-        <span class="placeholder-icon">📋</span>
-        <div class="placeholder-text">Data Generation Process Overview</div>
-        <div class="placeholder-hint">
-          Add image: <code>static/images/data_generation_process.png</code><br>
-          Pipeline diagram showing how training data is constructed: from image curation → annotation → graded reasoning generation → paraphrasing.
-        </div>
-      </div>
+      <img class="figure-img" src="static/images/data_generation_process.png" alt="Data generation pipeline overview">
       <div class="figure-caption"><strong>Figure 3:</strong> Overview of the dataset construction pipeline. Real and synthetic images are curated, annotated by human experts, and expanded through bootstrapped reasoning generation to create graded supervision at scale.</div>
     </div>
 
@@ -192,16 +168,24 @@
       </div>
     </div>
 
-    <!-- EXAMPLE SLOT: Data generation examples -->
-    <div class="example-container" id="ex-data-examples">
-      <div class="example-placeholder">
-        <span class="placeholder-label">Examples</span>
-        <span class="placeholder-icon">📝</span>
-        <div class="placeholder-text">Data Generation Examples</div>
-        <div class="placeholder-hint">
-          Add overleaf table images showing example data samples here.<br>
-          Place images in <code>static/images/examples/</code> folder.
-        </div>
+    <!-- Dataset example images -->
+    <h3>📷 Example Images from the Dataset</h3>
+    <div class="dataset-examples" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0;">
+      <div style="text-align: center;">
+        <img src="static/images/examples/0000ba5551c54f89.jpg" alt="Real image example" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="margin-top: 8px; font-size: 0.85rem; color: #64748b;"><span style="background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.75rem;">REAL</span> OpenImages-V7</div>
+      </div>
+      <div style="text-align: center;">
+        <img src="static/images/examples/gemini_00076_a-photorealistic-close-up-of-two-red-paper-hearts_01.png" alt="T2I fake example" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="margin-top: 8px; font-size: 0.85rem; color: #64748b;"><span style="background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.75rem;">FAKE</span> Gemini T2I</div>
+      </div>
+      <div style="text-align: center;">
+        <img src="static/images/examples/00af4188ffa00525_flux.png" alt="Edited image example" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="margin-top: 8px; font-size: 0.85rem; color: #64748b;"><span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.75rem;">EDITED</span> Flux-Kontext</div>
+      </div>
+      <div style="text-align: center;">
+        <img src="static/images/examples/0000b9fcba019d36_qwen.png" alt="Qwen edited example" style="width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="margin-top: 8px; font-size: 0.85rem; color: #64748b;"><span style="background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-weight: 600; font-size: 0.75rem;">EDITED</span> Qwen-Edit</div>
       </div>
     </div>
 
@@ -222,30 +206,46 @@
 
     <!-- FIGURE 4: Bootstrapping process diagram -->
     <div class="figure-container" id="fig-bootstrapping">
-      <div class="figure-placeholder">
-        <span class="placeholder-label">Figure 4</span>
-        <span class="placeholder-icon">🔄</span>
-        <div class="placeholder-text">Bootstrapping Process Diagram</div>
-        <div class="placeholder-hint">
-          Add image: <code>static/images/bootstrapping_process.png</code><br>
-          Shows the generator–evaluator loop: generate → evaluate → refine → paraphrase → accept.
-        </div>
-      </div>
+      <img class="figure-img" src="static/images/bootstrapping_process.png" alt="Bootstrapping generator-evaluator loop">
       <div class="figure-caption"><strong>Figure 4:</strong> The bootstrapped generator–evaluator supervision framework. Reasoning traces are generated at controlled quality levels, evaluated for alignment, iteratively refined, and diversified through paraphrasing.</div>
     </div>
 
-    <!-- EXAMPLE SLOT: Bootstrapping examples -->
-    <div class="example-container" id="ex-bootstrapping">
-      <div class="example-placeholder">
-        <span class="placeholder-label">Examples</span>
-        <span class="placeholder-icon">📝</span>
-        <div class="placeholder-text">Bootstrapping Examples</div>
-        <div class="placeholder-hint">
-          Add overleaf table images showing examples of generated reasoning at different quality levels (1–5).<br>
-          Place images in <code>static/images/examples/</code> folder.
-        </div>
-      </div>
+    <!-- Bootstrapping example: graded reasoning for a real image -->
+    <h3>📝 Example: Graded Reasoning from Bootstrapping</h3>
+    <div style="text-align: center; margin: 24px 0 16px;">
+      <img src="static/images/examples/ex5.png" alt="Example real image for bootstrapping" style="max-width: 320px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.12);">
+      <div style="margin-top: 8px; font-size: 0.9rem; color: #64748b;">(Image label: <strong>Real</strong>)</div>
     </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th style="width: 90px;">Rating</th><th>Reasoning</th></tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td><strong>5 (Gold)</strong></td>
+            <td>Soft, natural daylight uniformly illuminates the face and the knit hat, creating subtle shadows beneath the eyebrows and nose that correspond with the light source. The knitting texture on the hat is consistent in scale and shows realistic stitches and shadows. The face's sharpness contrasts smoothly with the slight blur of the background elements, providing depth. The hair near the hat edges blends naturally without halos, and the skin tones show natural variation in hue and lighting.</td>
+          </tr>
+          <tr>
+            <td><strong>4</strong></td>
+            <td>The lighting is gentle and natural, providing even daylight across both the face and the knit hat. Shadows beneath the eyebrows and nose align appropriately with the light source's direction. The knitting texture on the hat displays clear, realistic stitch details and a consistent scale. The face is sharply focused, contrasting with the slightly blurred background, which adds depth. The hair edges adjacent to the hat blend naturally without visible halos. Skin tones show credible variations in color and lighting, supporting the image's authenticity.</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td>The image shows a daylight scenario that generally looks natural, with mild shadows present on the face and hat. The knit texture of the hat is apparent, though some areas lack detail. The face is sharply focused while the background is somewhat blurred, enhancing the depth. Hair along the edges of the hat blends reasonably well, although a few spots could be smoother. Skin tones appear normal, but subtle inconsistencies might stem from lighting or minor edits. Overall, the image seems real, though not completely flawless.</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td>The illumination on the face and hat is uneven, with certain shadows looking inconsistent or too sharp for natural daylight. The knit texture on the hat is visible but appears somewhat flat in certain areas, suggesting possible retouching. The background blur is irregular, and some hair edges near the hat seem slightly unnatural or haloed. Skin tones vary, but some regions look excessively smoothed or edited. These factors cast doubt on the image's complete authenticity, though it may not be heavily altered.</td>
+          </tr>
+          <tr>
+            <td><strong>1</strong></td>
+            <td>The lighting is mismatched, with shadows on the face going in different directions and inconsistent with the outdoor background. The knit hat texture looks artificial and overly uniform, lacking natural stitch variation. Hair edges around the hat show clear halos and blending errors. The background blur is uneven, and skin tones appear overly airbrushed or colored unnaturally. These problems strongly indicate the image has been digitally manipulated or is fake.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="figure-caption"><strong>Table:</strong> Example of a real image and corresponding degraded ratings produced by the bootstrapping process. Reasoning quality is systematically controlled from level 5 (fully accurate and grounded) to level 1 (hallucinated and misleading).</div>
 
   </div>
 </section>
