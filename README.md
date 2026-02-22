@@ -27,6 +27,7 @@
 - [🚀 Inference](#-inference)
   - [Pointwise Inference](#pointwise-inference)
   - [Pairwise Inference](#pairwise-inference)
+  - [Batch Inference with ms-swift](#batch-inference-with-ms-swift)
 - [🏋️ Training](#%EF%B8%8F-training)
   - [Setup](#training-setup)
   - [Pointwise Training](#pointwise-training)
@@ -305,7 +306,59 @@ print(output[0])
 # <answer>A</answer>
 ```
 
-A ready-to-use CLI script is available in [`pairwise/inference.py`](pairwise/inference.py) — see the [pairwise README](pairwise/README.md) for full details.
+A ready-to-use CLI script is available in [`pairwise/inference.py`](pairwise/inference.py). See the [pairwise README](pairwise/README.md) for full details.
+
+## 🔄 Batch Inference with ms-swift
+
+For batch inference over a dataset (e.g., running the judge on a full test set), we provide a streamlined workflow using [ms-swift](https://github.com/modelscope/ms-swift).
+
+**Install ms-swift:**
+
+```bash
+pip install ms-swift
+```
+
+**Prepare your test file** in the same JSONL format as the training data (see [Dataset](#dataset)). Each line should contain the `messages` and `images` fields.
+
+**Run batch inference:**
+
+```bash
+#!/bin/bash
+
+# ---- User Configuration ----
+MODEL="MBZUAI/Qwen-2.5-VL-Instruct-7B-Pointwise-DFJ"   # or any model from the Model Zoo
+TEST_FILE="/path/to/your/test_data.jsonl"
+OUTPUT_FILE="./results.jsonl"
+GPU_IDS="0,1"
+
+# ---- Image Processing (Qwen-VL defaults) ----
+export MAX_PIXELS=1003520
+export IMAGE_FACTOR=28
+export MIN_PIXELS=3136
+
+# ---- Inference ----
+CUDA_VISIBLE_DEVICES=${GPU_IDS} swift infer \
+    --model ${MODEL} \
+    --val_dataset ${TEST_FILE} \
+    --max_new_tokens 2048 \
+    --temperature 0.0 \
+    --max_batch_size 16 \
+    --torch_dtype bfloat16 \
+    --stream false \
+    --use_hf true \
+    --result_path ${OUTPUT_FILE}
+```
+
+To switch between **pointwise** and **pairwise** inference, simply change the `MODEL` to the corresponding checkpoint from the [Model Zoo](#model-zoo):
+
+| Task | Model |
+|---|---|
+| Pointwise (3B) | `MBZUAI/Qwen-2.5-VL-Instruct-3B-Pointwise-DFJ` |
+| Pointwise (7B) | `MBZUAI/Qwen-2.5-VL-Instruct-7B-Pointwise-DFJ` |
+| Pairwise (3B) | `MBZUAI/Qwen-2.5-VL-Instruct-3B-Pairwise-DFJ` |
+| Pairwise (7B) | `MBZUAI/Qwen-2.5-VL-Instruct-7B-Pairwise-DFJ` |
+
+The test JSONL should follow the same schema as the corresponding training split (pointwise or pairwise). The output JSONL will contain the model predictions alongside the original fields.
 
 ---
 
