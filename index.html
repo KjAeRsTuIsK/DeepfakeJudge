@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepfakeJudge — Bootstrapping MLLM-as-a-Judge for Trustworthy Deepfake Detection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="container">
+    <!-- FIGURE_LOGO: Replace src with your judge logo -->
+    <img class="hero-logo" src="static/images/judge_logo.png" alt="DeepfakeJudge Logo">
+
+    <h1>Pixels Don't Lie (But Your Detector Might): Bootstrapping MLLM-as-a-Judge for Trustworthy Deepfake Detection and Reasoning Supervision</h1>
+
+    <div class="authors">
+      <a href="https://www.linkedin.com/in/kartik-kuckreja-930531221/">Kartik Kuckreja</a>,
+      <a href="https://scholar.google.com.au/citations?user=Wik3mXsAAAAJ&hl=en">Parul Gupta</a>,
+      <a href="https://m-haris-khan.com/">Muhammad Haris Khan</a>,
+      <a href="https://research.monash.edu/en/persons/abhinav-dhall">Abhinav Dhall</a>
+    </div>
+    <div class="affiliations">Mohamed bin Zayed University of Artificial Intelligence &nbsp;·&nbsp; Monash University</div>
+
+    <!-- Update venue/year as needed -->
+    <!-- <div class="venue-tag">VENUE 2025</div> -->
+
+    <div class="badges">
+      <a class="badge arxiv" href="#" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        arXiv Paper
+      </a>
+      <a class="badge github" href="https://github.com/KjAeRsTuIsK/DeepfakeJudge" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Code
+      </a>
+      <a class="badge hf" href="https://huggingface.co/MBZUAI/Qwen-2.5-VL-Instruct-7B-Pointwise-DFJ" target="_blank">
+        🤗 Models
+      </a>
+      <a class="badge dataset" href="https://huggingface.co/datasets/MBZUAI/DeepfakeJudge-Dataset" target="_blank">
+        📂 Dataset
+      </a>
+    </div>
+  </div>
+</header>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     ABSTRACT
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="abstract">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">📄</span> Abstract</h2>
+    <p>
+      Deepfake detection models increasingly generate natural language explanations to justify their predictions. However, while classification accuracy has improved, the reasoning itself is often ungrounded, hallucinated, or loosely connected to the actual visual evidence. Existing evaluation protocols primarily measure detection accuracy and overlook reasoning fidelity, visual grounding, and interpretability.
+    </p>
+    <p>
+      We introduce <strong>DeepfakeJudge</strong>, a unified framework for scalable reasoning supervision and evaluation in deepfake detection. The framework integrates an out-of-distribution detection benchmark, a densely human-annotated reasoning dataset, and a bootstrapped generator–evaluator training pipeline to build a multimodal reasoning judge. The resulting models evaluate explanation quality directly from images and support both <strong>pointwise</strong> and <strong>pairwise</strong> assessment aligned with human judgment.
+    </p>
+    <p>
+      DeepfakeJudge establishes reasoning fidelity as a measurable dimension of trustworthy deepfake detection and demonstrates that scalable supervision of reasoning evaluators is possible without requiring explicit ground-truth rationales for every instance.
+    </p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     TEASER / MOTIVATION
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="motivation" class="alt">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">🔍</span> Why DeepfakeJudge?</h2>
+
+    <p>
+      Current deepfake detectors can classify images, but their <em>reasoning</em> is often unreliable — hallucinated artifacts, ungrounded claims, and generic explanations. Traditional metrics like BLEU and BERTScore fail to capture these issues. DeepfakeJudge addresses this gap by training compact vision-language models that evaluate reasoning quality directly from images.
+    </p>
+
+    <!-- FIGURE 1: Teaser — Comparison of deepfake reasoning among different models -->
+    <div class="figure-container" id="fig-teaser-models">
+      <div class="figure-placeholder">
+        <span class="placeholder-label">Figure 1</span>
+        <span class="placeholder-icon">🖼️</span>
+        <div class="placeholder-text">Teaser: Deepfake Reasoning Comparison Across Models</div>
+        <div class="placeholder-hint">
+          Add image: <code>static/images/teaser_model_comparison.png</code><br>
+          Shows how different models (GPT-4o, Gemini, Qwen, SIDA, etc.) reason about the same deepfake image — highlighting hallucinated vs. grounded explanations.
+        </div>
+      </div>
+      <div class="figure-caption"><strong>Figure 1:</strong> Different VLMs produce varying quality reasoning for deepfake detection. While some correctly identify artifacts, others hallucinate non-existent manipulations or miss critical visual evidence.</div>
+    </div>
+
+    <!-- FIGURE 2: Teaser — Comparison with other metrics -->
+    <div class="figure-container" id="fig-teaser-metrics">
+      <div class="figure-placeholder">
+        <span class="placeholder-label">Figure 2</span>
+        <span class="placeholder-icon">📊</span>
+        <div class="placeholder-text">Teaser: DeepfakeJudge vs. Traditional Metrics</div>
+        <div class="placeholder-hint">
+          Add image: <code>static/images/teaser_metrics_comparison.png</code><br>
+          Shows that traditional metrics (BLEU, ROUGE, BERTScore) fail to distinguish reasoning quality, while DeepfakeJudge scores align with human judgment.
+        </div>
+      </div>
+      <div class="figure-caption"><strong>Figure 2:</strong> Traditional lexical and semantic metrics fail to capture reasoning fidelity. DeepfakeJudge scores correlate strongly with human assessments of visual grounding and factual correctness.</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     CONTRIBUTIONS
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="contributions">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">💡</span> Key Contributions</h2>
+
+    <div class="contrib-grid">
+      <div class="contrib-card">
+        <div class="card-icon">🎯</div>
+        <h4>Out-of-Distribution Deepfake Benchmark</h4>
+        <p>A challenging benchmark combining real images, text-to-image generations, and editing-based forgeries from modern pipelines (Gemini, SeedDream, Flux-Kontext-Max, Qwen-Edit) to evaluate both detection and reasoning generalization.</p>
+      </div>
+      <div class="contrib-card">
+        <div class="card-icon">✍️</div>
+        <h4>Human-Annotated Visual Reasoning Dataset</h4>
+        <p>Densely annotated dataset linking textual explanations to localized visual evidence — including artifact categories, bounding boxes, referring expressions, and structured gold reasoning rationales.</p>
+      </div>
+      <div class="contrib-card">
+        <div class="card-icon">🔄</div>
+        <h4>Bootstrapped Generator–Evaluator Pipeline</h4>
+        <p>A scalable supervision framework that generates graded reasoning traces across five quality levels, iteratively refines misaligned samples, and paraphrases accepted outputs for stylistic diversity.</p>
+      </div>
+      <div class="contrib-card">
+        <div class="card-icon">⚖️</div>
+        <h4>MLLM-as-a-Judge</h4>
+        <p>Compact 3B and 7B vision-language models trained as reasoning evaluators supporting both pointwise scoring (1–5) and pairwise comparison, achieving <strong>96.2% pairwise accuracy</strong> and <strong>0.95 Pearson correlation</strong> — surpassing models 30× larger.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     DATA GENERATION
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="data-generation" class="alt">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">📊</span> Dataset Construction</h2>
+
+    <p>
+      DeepfakeJudge introduces a multi-level dataset ecosystem: <strong>DFJ-Detect</strong> (2,000 images for OOD detection), <strong>DFJ-Reason</strong> (924 images with human-annotated reasoning), <strong>DFJ-Meta</strong> (41K+ bootstrapped training samples for judge training), and <strong>DFJ-Meta-Human</strong> (155 human-validated evaluation samples).
+    </p>
+
+    <!-- FIGURE 3: Data generation process overview -->
+    <div class="figure-container" id="fig-data-generation">
+      <div class="figure-placeholder">
+        <span class="placeholder-label">Figure 3</span>
+        <span class="placeholder-icon">📋</span>
+        <div class="placeholder-text">Data Generation Process Overview</div>
+        <div class="placeholder-hint">
+          Add image: <code>static/images/data_generation_process.png</code><br>
+          Pipeline diagram showing how training data is constructed: from image curation → annotation → graded reasoning generation → paraphrasing.
+        </div>
+      </div>
+      <div class="figure-caption"><strong>Figure 3:</strong> Overview of the dataset construction pipeline. Real and synthetic images are curated, annotated by human experts, and expanded through bootstrapped reasoning generation to create graded supervision at scale.</div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>🎯 DFJ-Detect</h3>
+        <ul>
+          <li>1,000 real images (OpenImages-V7)</li>
+          <li>500 T2I fakes (Gemini, SeedDream)</li>
+          <li>500 edited fakes (Gemini, Flux-Kontext-Max, Qwen-Edit)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>🧠 DFJ-Reason</h3>
+        <ul>
+          <li>924 images with dense annotations</li>
+          <li>Artifact categories + bounding boxes</li>
+          <li>Referring expressions + gold rationales</li>
+          <li>Cohen's κ = 0.71 inter-annotator agreement</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EXAMPLE SLOT: Data generation examples -->
+    <div class="example-container" id="ex-data-examples">
+      <div class="example-placeholder">
+        <span class="placeholder-label">Examples</span>
+        <span class="placeholder-icon">📝</span>
+        <div class="placeholder-text">Data Generation Examples</div>
+        <div class="placeholder-hint">
+          Add overleaf table images showing example data samples here.<br>
+          Place images in <code>static/images/examples/</code> folder.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     BOOTSTRAPPING
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="bootstrapping">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">🔄</span> Bootstrapped Reasoning Supervision</h2>
+
+    <p>
+      To scale training beyond the human-annotated subset, we introduce a generator–evaluator loop. A generator produces reasoning traces at five intended quality levels (1–5). An evaluator checks alignment between predicted and intended ratings. Misaligned samples are refined using evaluator feedback until consistency is achieved. Accepted samples are then paraphrased to prevent stylistic memorization.
+    </p>
+
+    <!-- FIGURE 4: Bootstrapping process diagram -->
+    <div class="figure-container" id="fig-bootstrapping">
+      <div class="figure-placeholder">
+        <span class="placeholder-label">Figure 4</span>
+        <span class="placeholder-icon">🔄</span>
+        <div class="placeholder-text">Bootstrapping Process Diagram</div>
+        <div class="placeholder-hint">
+          Add image: <code>static/images/bootstrapping_process.png</code><br>
+          Shows the generator–evaluator loop: generate → evaluate → refine → paraphrase → accept.
+        </div>
+      </div>
+      <div class="figure-caption"><strong>Figure 4:</strong> The bootstrapped generator–evaluator supervision framework. Reasoning traces are generated at controlled quality levels, evaluated for alignment, iteratively refined, and diversified through paraphrasing.</div>
+    </div>
+
+    <!-- EXAMPLE SLOT: Bootstrapping examples -->
+    <div class="example-container" id="ex-bootstrapping">
+      <div class="example-placeholder">
+        <span class="placeholder-label">Examples</span>
+        <span class="placeholder-icon">📝</span>
+        <div class="placeholder-text">Bootstrapping Examples</div>
+        <div class="placeholder-hint">
+          Add overleaf table images showing examples of generated reasoning at different quality levels (1–5).<br>
+          Place images in <code>static/images/examples/</code> folder.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     METHODOLOGY
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="methodology" class="alt">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">🔬</span> Methodology</h2>
+
+    <div class="method-steps">
+      <div class="method-step">
+        <h4>Dataset Construction</h4>
+        <p>Real and synthetic images are curated for an OOD detection benchmark. Fake images span both T2I generation and image-editing pipelines. A subset is densely annotated for reasoning supervision, linking textual explanations to spatial visual evidence.</p>
+      </div>
+      <div class="method-step">
+        <h4>Bootstrapped Reasoning Supervision</h4>
+        <p>A generator model produces reasoning samples across five quality levels. An evaluator model assigns ratings and provides feedback. Misaligned samples are iteratively refined. Accepted samples are paraphrased to introduce stylistic diversity while preserving semantic structure.</p>
+      </div>
+      <div class="method-step">
+        <h4>DeepfakeJudge Training</h4>
+        <p>Compact VLMs (3B and 7B) are fine-tuned using LoRA with a negative log-likelihood objective. <strong>Pointwise:</strong> predict a reasoning quality score (1–5) with justification. <strong>Pairwise:</strong> select the better-grounded reasoning between two candidates.</p>
+      </div>
+    </div>
+
+    <!-- EXAMPLE SLOT: Methodology examples -->
+    <div class="example-container" id="ex-methodology">
+      <div class="example-placeholder">
+        <span class="placeholder-label">Examples</span>
+        <span class="placeholder-icon">📝</span>
+        <div class="placeholder-text">Methodology / Training Examples</div>
+        <div class="placeholder-hint">
+          Add overleaf table images showing pointwise and pairwise training input/output examples.<br>
+          Place images in <code>static/images/examples/</code> folder.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     RESULTS
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="results">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">📈</span> Benchmark Results</h2>
+
+    <!-- Detection Results -->
+    <h3>🎯 Deepfake Detection (OOD)</h3>
+    <p>Evaluation on DeepfakeJudge-Detect (2,000 images):</p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Model</th><th>Real F1</th><th>Fake F1</th><th>Overall Acc.</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Gemini-2.5-Flash</td><td>73.7</td><td>50.0</td><td>65.5</td></tr>
+          <tr><td>GPT-4o-mini</td><td>70.2</td><td>35.8</td><td>59.3</td></tr>
+          <tr class="highlight-row"><td>Qwen-3-VL-235B</td><td class="best-val">78.6</td><td>68.4</td><td class="best-val">74.5</td></tr>
+          <tr><td>Qwen-3-VL-235B-Thinking</td><td>76.6</td><td class="best-val">79.8</td><td>63.7</td></tr>
+          <tr><td>SIDA-13B</td><td>57.0</td><td>34.5</td><td>48.1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Reasoning Evaluation -->
+    <h3>🧠 Reasoning Evaluation</h3>
+    <p>Evaluation on DeepfakeJudge-Reason:</p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Model</th><th>BLEU-3</th><th>BERTScore</th><th>DFJ-3B Score</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Gemini-2.5-Flash</td><td>0.02</td><td>0.60</td><td>3.17</td></tr>
+          <tr><td>GPT-4o-mini</td><td>0.01</td><td>0.35</td><td>2.83</td></tr>
+          <tr><td>Qwen-3-VL-30B</td><td class="best-val">0.03</td><td class="best-val">0.62</td><td>3.31</td></tr>
+          <tr class="highlight-row"><td>Qwen-3-VL-235B</td><td>0.01</td><td>0.60</td><td class="best-val">3.59</td></tr>
+          <tr><td>SIDA</td><td>0.01</td><td>0.58</td><td>2.32</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pointwise Results -->
+    <h3>📌 Pointwise Evaluation</h3>
+    <div class="two-col">
+      <div>
+        <p><strong>DFJ-Meta</strong></p>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Model</th><th>RMSE ↓</th><th>Pearson ↑</th></tr></thead>
+            <tbody>
+              <tr><td>Gemini-2.5</td><td>1.09</td><td>0.83</td></tr>
+              <tr><td>GPT-4o-mini</td><td>0.78</td><td>0.87</td></tr>
+              <tr><td>Qwen-3-VL-235B</td><td>1.10</td><td>0.82</td></tr>
+              <tr><td>DeepfakeJudge-3B</td><td>0.69</td><td>0.92</td></tr>
+              <tr class="highlight-row"><td>DeepfakeJudge-7B</td><td class="best-val">0.61</td><td class="best-val">0.93</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <p><strong>DFJ-Meta-Human</strong></p>
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Model</th><th>RMSE ↓</th><th>Pearson ↑</th></tr></thead>
+            <tbody>
+              <tr><td>GPT-4o-mini</td><td>0.81</td><td>0.86</td></tr>
+              <tr><td>Qwen-235B-Thinking</td><td>0.95</td><td>0.86</td></tr>
+              <tr class="highlight-row"><td>DeepfakeJudge-7B</td><td class="best-val">0.50</td><td class="best-val">0.95</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pairwise Results -->
+    <h3>⚖️ Pairwise Evaluation</h3>
+    <p>Pairwise accuracy (% agreement with human preferences):</p>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Model</th><th>DFJ-Meta</th><th>DFJ-Meta-Human</th></tr></thead>
+        <tbody>
+          <tr><td>Gemini-2.5</td><td>91.7</td><td>94.2</td></tr>
+          <tr><td>GPT-4o-mini</td><td>90.3</td><td>89.8</td></tr>
+          <tr><td>Qwen-235B</td><td>93.2</td><td class="best-val">99.4</td></tr>
+          <tr><td>DeepfakeJudge-3B</td><td>94.4</td><td>96.6</td></tr>
+          <tr class="highlight-row"><td>DeepfakeJudge-7B</td><td class="best-val">96.2</td><td>98.9</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- EXAMPLE SLOT: Qualitative results -->
+    <div class="example-container" id="ex-results">
+      <div class="example-placeholder">
+        <span class="placeholder-label">Examples</span>
+        <span class="placeholder-icon">📝</span>
+        <div class="placeholder-text">Qualitative Results / Evaluation Examples</div>
+        <div class="placeholder-hint">
+          Add overleaf table images showing qualitative pointwise and pairwise evaluation examples.<br>
+          Place images in <code>static/images/examples/</code> folder.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     MODEL ZOO
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="models" class="alt">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">🦁</span> Model Zoo</h2>
+    <p>All models are fine-tuned from Qwen2.5-VL-Instruct using LoRA and hosted on Hugging Face:</p>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Model</th><th>Type</th><th>Base</th><th>Link</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>DeepfakeJudge-3B-Pointwise</td>
+            <td><span class="model-badge pointwise">Pointwise</span></td>
+            <td>Qwen2.5-VL-3B</td>
+            <td><a href="https://huggingface.co/MBZUAI/Qwen-2.5-VL-Instruct-3B-Pointwise-DFJ" target="_blank">🤗 Download</a></td>
+          </tr>
+          <tr>
+            <td>DeepfakeJudge-3B-Pairwise</td>
+            <td><span class="model-badge pairwise">Pairwise</span></td>
+            <td>Qwen2.5-VL-3B</td>
+            <td><a href="https://huggingface.co/MBZUAI/Qwen-2.5-VL-Instruct-3B-Pairwise-DFJ" target="_blank">🤗 Download</a></td>
+          </tr>
+          <tr>
+            <td>DeepfakeJudge-7B-Pointwise</td>
+            <td><span class="model-badge pointwise">Pointwise</span></td>
+            <td>Qwen2.5-VL-7B</td>
+            <td><a href="https://huggingface.co/MBZUAI/Qwen-2.5-VL-Instruct-7B-Pointwise-DFJ" target="_blank">🤗 Download</a></td>
+          </tr>
+          <tr>
+            <td>DeepfakeJudge-7B-Pairwise</td>
+            <td><span class="model-badge pairwise">Pairwise</span></td>
+            <td>Qwen2.5-VL-7B</td>
+            <td><a href="https://huggingface.co/MBZUAI/Qwen-2.5-VL-Instruct-7B-Pairwise-DFJ" target="_blank">🤗 Download</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     CITATION
+     ════════════════════════════════════════════════════════════════════ -->
+<section id="citation">
+  <div class="container">
+    <h2 class="section-title"><span class="icon">📝</span> Citation</h2>
+    <p>If you find DeepfakeJudge useful in your research, please consider citing:</p>
+    <div class="citation-block">
+      <button class="copy-btn" onclick="copyCitation()">📋 Copy</button>
+<pre>@article{kuckreja2025deepfakejudge,
+  title={Pixels Don't Lie (But Your Detector Might): Bootstrapping
+         MLLM-as-a-Judge for Trustworthy Deepfake Detection
+         and Reasoning Supervision},
+  author={Kuckreja, Kartik and Gupta, Parul and Khan, Muhammad Haris
+          and Dhall, Abhinav},
+  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  year={2025}
+}</pre>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <p>
+      DeepfakeJudge &nbsp;·&nbsp;
+      <a href="https://github.com/KjAeRsTuIsK/DeepfakeJudge">GitHub</a> &nbsp;·&nbsp;
+      <a href="https://huggingface.co/datasets/MBZUAI/DeepfakeJudge-Dataset">Dataset</a> &nbsp;·&nbsp;
+      <a href="https://mbzuai.ac.ae">MBZUAI</a>
+    </p>
+    <p style="margin-top:8px; font-size:0.8rem;">This website template is inspired by <a href="https://nerfies.github.io">Nerfies</a> and <a href="https://llava-vl.github.io">LLaVA</a>.</p>
+  </div>
+</footer>
+
+<script>
+function copyCitation() {
+  const pre = document.querySelector('.citation-block pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy', 2000);
+  });
+}
+</script>
+
+</body>
+</html>
