@@ -309,7 +309,7 @@ A ready-to-use CLI script is available in [`pairwise/inference.py`](pairwise/inf
 
 ---
 
-# 🏋️ Training
+# 🏋️ 
 
 DeepfakeJudge models are fine-tuned using [ms-swift](https://github.com/modelscope/ms-swift), a scalable training framework for LLMs and VLMs.
 
@@ -318,6 +318,8 @@ DeepfakeJudge models are fine-tuned using [ms-swift](https://github.com/modelsco
 ```bash
 pip install ms-swift
 ```
+
+Set up the environment according to the instructions [here](https://github.com/modelscope/ms-swift).
 
 Make sure you have the dataset downloaded (see [Dataset](#dataset) section above). The training JSONL files are:
 
