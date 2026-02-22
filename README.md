@@ -10,7 +10,7 @@
 
 ---
 
-[![Website](https://img.shields.io/badge/Project-Website-87CEEB)]()
+[![Website](https://img.shields.io/badge/Project-Website-87CEEB)](https://kjaerstuisk.github.io/DeepfakeJudge/)
 [![paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)]()
 [![Dataset](https://img.shields.io/badge/🤗_Dataset-DeepfakeJudge-blue)](https://huggingface.co/datasets/MBZUAI/DeepfakeJudge-Dataset)
 
