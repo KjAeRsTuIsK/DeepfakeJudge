@@ -11,7 +11,7 @@
 ---
 
 [![Website](https://img.shields.io/badge/Project-Website-87CEEB)](https://kjaerstuisk.github.io/DeepfakeJudge/)
-[![paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)]()
+[![paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/html/2602.19715v1)
 [![Dataset](https://img.shields.io/badge/🤗_Dataset-DeepfakeJudge-blue)](https://huggingface.co/datasets/MBZUAI/DeepfakeJudge-Dataset)
 
 ---
