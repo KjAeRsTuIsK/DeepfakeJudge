@@ -734,3 +734,14 @@ Pairwise accuracy (% agreement with human preferences):
 # <a id="conclusion"></a>🏁 Conclusion
 
 DeepfakeJudge introduces a unified framework for reasoning supervision and evaluation in deepfake detection. By combining human annotation, bootstrapped multimodal supervision, and automated evaluation, the framework establishes reasoning fidelity as a measurable and scalable objective. Compact reasoning judges trained under this framework achieve near-human alignment and outperform substantially larger models, paving the way for trustworthy, interpretable, and generalizable forensic systems.
+
+## 📜 Citation
+```bibtex
+@article{kuckreja2026pixels,
+  title={Pixels Don't Lie (But Your Detector Might): Bootstrapping MLLM-as-a-Judge for Trustworthy Deepfake Detection and Reasoning Supervision},
+  author={Kuckreja, Kartik and Gupta, Parul and Khan, Muhammad Haris and Dhall, Abhinav},
+  journal={arXiv preprint arXiv:2602.19715},
+  year={2026}
+  }
+```
+
